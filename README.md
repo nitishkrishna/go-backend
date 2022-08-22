@@ -1,8 +1,8 @@
 # Go Library Project
 
 - [X] Book CRUD
-- [ ] Book Gorm Postgres Migrate
-- [ ] Fiber/Rest API Book Crud
+- [X] Book Gorm Postgres Migrate
+- [X] Fiber/Rest API Book Crud
 - [ ] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
 - [ ] ElasticSearch book indexing
 - [ ] Inventory Management UI (Single book)
