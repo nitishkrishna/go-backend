@@ -20,15 +20,15 @@ type Book struct {
 
 var Books = []Book{
 	{
-		Id:    1,
-		Title: "Golang for beginners",
+		Id:     1,
+		Title:  "Golang for beginners",
 		Author: "Gopher",
-		Desc: "A beginner book for Golang",
-		ISBN: "abc",
+		Desc:   "A beginner book for Golang",
+		ISBN:   "abc",
 	},
 }
 
-func GetAllBooks(w http.ResponseWriter, r *http.Request)  {
+func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Books)
@@ -50,6 +50,8 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// TODO: Creates duplicates, fix
 
 func AddBook(w http.ResponseWriter, r *http.Request) {
 	// Read to request body
