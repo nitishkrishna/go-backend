@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-type Bookstore struct {
+type PostgresBookstore struct {
 	DB *gorm.DB
 }
 
-func (b *Bookstore) SetupRoutes(app *fiber.App) {
+func (b *PostgresBookstore) SetupRoutes(app *fiber.App) {
 	api := app.Group("/api")
 	api.Post("/books", b.CreateBook)
 	api.Delete("/books/:id", b.DeleteBook)
@@ -20,12 +20,12 @@ func (b *Bookstore) SetupRoutes(app *fiber.App) {
 	api.Get("/books", b.GetBooks)
 }
 
-func (b *Bookstore) MigrateBooks() error {
+func (b *PostgresBookstore) MigrateBooks() error {
 	err := b.DB.AutoMigrate(&book.Book{})
 	return err
 }
 
-func (b *Bookstore) CreateBook(context *fiber.Ctx) error {
+func (b *PostgresBookstore) CreateBook(context *fiber.Ctx) error {
 	book := book.Book{}
 
 	err := context.BodyParser(&book)
@@ -48,7 +48,7 @@ func (b *Bookstore) CreateBook(context *fiber.Ctx) error {
 	return nil
 }
 
-func (b *Bookstore) DeleteBook(context *fiber.Ctx) error {
+func (b *PostgresBookstore) DeleteBook(context *fiber.Ctx) error {
 	bookModel := book.Book{}
 	id := context.Params("id")
 	if id == "" {
@@ -72,7 +72,7 @@ func (b *Bookstore) DeleteBook(context *fiber.Ctx) error {
 	return nil
 }
 
-func (b *Bookstore) GetBooks(context *fiber.Ctx) error {
+func (b *PostgresBookstore) GetBooks(context *fiber.Ctx) error {
 	bookModels := &[]book.Book{}
 
 	err := b.DB.Find(bookModels).Error
@@ -89,7 +89,7 @@ func (b *Bookstore) GetBooks(context *fiber.Ctx) error {
 	return nil
 }
 
-func (b *Bookstore) GetBookByID(context *fiber.Ctx) error {
+func (b *PostgresBookstore) GetBookByID(context *fiber.Ctx) error {
 
 	id := context.Params("id")
 	bookModel := &book.Book{}

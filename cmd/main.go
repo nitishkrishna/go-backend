@@ -27,7 +27,7 @@ func main() {
 		_ = http.ListenAndServe(":4000", router)*/
 
 	app := fiber.New()
-	b := bookstore.Bookstore{DB: dbObj}
+	b := bookstore.PostgresBookstore{DB: dbObj}
 	err = b.MigrateBooks()
 	if err != nil {
 		log.Fatal("could not migrate db")
