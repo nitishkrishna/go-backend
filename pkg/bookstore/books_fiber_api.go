@@ -6,6 +6,7 @@ import (
 	"github.com/nitish-krishna/go-backend/pkg/book"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 )
 
 type PostgresBookstore struct {
@@ -20,31 +21,29 @@ func (b *PostgresBookstore) SetupRoutes(app *fiber.App) {
 	api.Get("/books", b.GetBooks)
 }
 
-func (b *PostgresBookstore) MigrateBooks() error {
-	err := b.DB.AutoMigrate(&book.Book{})
-	return err
-}
-
 func (b *PostgresBookstore) CreateBook(context *fiber.Ctx) error {
-	book := book.Book{}
+	bookObj := book.Book{}
 
-	err := context.BodyParser(&book)
+	err := context.BodyParser(&bookObj)
 
 	if err != nil {
-		context.Status(http.StatusUnprocessableEntity).JSON(
+		jsonErr := context.Status(http.StatusUnprocessableEntity).JSON(
 			&fiber.Map{"message": "request failed"})
+		if jsonErr != nil {
+			return jsonErr
+		}
 		return err
 	}
 
-	err = b.DB.Create(&book).Error
+	err = b.CreateBookOp(&bookObj)
 	if err != nil {
 		context.Status(http.StatusBadRequest).JSON(
-			&fiber.Map{"message": "could not create book"})
+			&fiber.Map{"message": "could not create bookObj"})
 		return err
 	}
 
 	context.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "book has been added"})
+		"message": "bookObj has been added"})
 	return nil
 }
 
@@ -58,13 +57,18 @@ func (b *PostgresBookstore) DeleteBook(context *fiber.Ctx) error {
 		return nil
 	}
 
-	err := b.DB.Delete(bookModel, id)
+	bookId, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
 
-	if err.Error != nil {
+	err = b.DeleteBookOp(bookModel, bookId)
+
+	if err != nil {
 		context.Status(http.StatusBadRequest).JSON(&fiber.Map{
 			"message": "could not delete book",
 		})
-		return err.Error
+		return err
 	}
 	context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "book delete successfully",
@@ -73,9 +77,7 @@ func (b *PostgresBookstore) DeleteBook(context *fiber.Ctx) error {
 }
 
 func (b *PostgresBookstore) GetBooks(context *fiber.Ctx) error {
-	bookModels := &[]book.Book{}
-
-	err := b.DB.Find(bookModels).Error
+	bookModels, err := b.FindBooksOp()
 	if err != nil {
 		context.Status(http.StatusBadRequest).JSON(
 			&fiber.Map{"message": "could not get books"})
@@ -90,9 +92,7 @@ func (b *PostgresBookstore) GetBooks(context *fiber.Ctx) error {
 }
 
 func (b *PostgresBookstore) GetBookByID(context *fiber.Ctx) error {
-
 	id := context.Params("id")
-	bookModel := &book.Book{}
 	if id == "" {
 		context.Status(http.StatusInternalServerError).JSON(&fiber.Map{
 			"message": "id cannot be empty",
@@ -102,15 +102,26 @@ func (b *PostgresBookstore) GetBookByID(context *fiber.Ctx) error {
 
 	fmt.Println("the ID is", id)
 
-	err := b.DB.Where("id = ?", id).First(bookModel).Error
+	bookId, err := strconv.Atoi(id)
 	if err != nil {
-		context.Status(http.StatusBadRequest).JSON(
-			&fiber.Map{"message": "could not get the book"})
 		return err
 	}
-	context.Status(http.StatusOK).JSON(&fiber.Map{
+
+	bookModel, err := b.GetBookByIdOp(bookId)
+	if err != nil {
+		jsonErr := context.Status(http.StatusBadRequest).JSON(
+			&fiber.Map{"message": "could not get the book"})
+		if jsonErr != nil {
+			return jsonErr
+		}
+		return err
+	}
+	err = context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "book id fetched successfully",
 		"data":    bookModel,
 	})
+	if err != nil {
+		return err
+	}
 	return nil
 }

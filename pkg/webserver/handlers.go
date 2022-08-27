@@ -1,4 +1,4 @@
-package book
+package webserver
 
 import (
 	"github.com/gorilla/mux"

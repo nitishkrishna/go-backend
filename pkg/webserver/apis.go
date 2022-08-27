@@ -1,8 +1,9 @@
-package book
+package webserver
 
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/nitish-krishna/go-backend/pkg/book"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -13,7 +14,7 @@ import (
 func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(Books)
+	json.NewEncoder(w).Encode(book.Books)
 }
 
 func GetBook(w http.ResponseWriter, r *http.Request) {
@@ -22,12 +23,12 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(vars["id"])
 
 	// Iterate over all the mock books
-	for _, book := range Books {
-		if book.Id == id {
-			// If ids are equal send book as response
+	for _, bookObj := range book.Books {
+		if bookObj.Id == id {
+			// If ids are equal send bookObj as response
 			w.Header().Add("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(book)
+			json.NewEncoder(w).Encode(bookObj)
 			break
 		}
 	}
@@ -44,12 +45,12 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	var book Book
-	json.Unmarshal(body, &book)
+	var bookObj book.Book
+	json.Unmarshal(body, &bookObj)
 
 	// Append to the Book mocks
-	book.Id = rand.Intn(100)
-	Books = append(Books, book)
+	bookObj.Id = rand.Intn(100)
+	book.Books = append(book.Books, bookObj)
 
 	// Send a 201 created response
 	w.Header().Add("Content-Type", "application/json")
@@ -63,10 +64,10 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(vars["id"])
 
 	// Iterate over all the mock Books
-	for index, book := range Books {
-		if book.Id == id {
-			// Delete book and send response if the book Id matches dynamic Id
-			Books = append(Books[:index], Books[index+1:]...)
+	for index, bookObj := range book.Books {
+		if bookObj.Id == id {
+			// Delete bookObj and send response if the bookObj Id matches dynamic Id
+			book.Books = append(book.Books[:index], book.Books[index+1:]...)
 
 			w.Header().Add("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
@@ -89,19 +90,19 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	var updatedBook Book
+	var updatedBook book.Book
 	json.Unmarshal(body, &updatedBook)
 
 	// Iterate over all the mock Books
-	for index, book := range Books {
-		if book.Id == id {
-			// Update and send response when book Id matches dynamic Id
-			book.Title = updatedBook.Title
-			book.Author = updatedBook.Author
-			book.Desc = updatedBook.Desc
-			book.ISBN = updatedBook.ISBN
+	for index, bookObj := range book.Books {
+		if bookObj.Id == id {
+			// Update and send response when bookObj Id matches dynamic Id
+			bookObj.Title = updatedBook.Title
+			bookObj.Author = updatedBook.Author
+			bookObj.Desc = updatedBook.Desc
+			bookObj.ISBN = updatedBook.ISBN
 
-			Books[index] = book
+			book.Books[index] = bookObj
 
 			w.Header().Add("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
