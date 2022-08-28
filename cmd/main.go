@@ -8,6 +8,8 @@ import (
 	"log"
 )
 
+const DatasetFile = "test.csv"
+
 func main() {
 
 	dbConfig, err := db.ParsePostgresConfig(".env")
