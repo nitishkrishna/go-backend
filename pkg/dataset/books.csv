@@ -3347,7 +3347,7 @@ bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,rating
 12216,Three Plays: Desire Under the Elms / Strange Interlude / Mourning Becomes Electra,Eugene O'Neill/Luann Walther,4.08,0679763961,9780679763963,eng,424,1596,36,10/31/1995,Vintage
 12220,A Streetcar Named Desire,Tennessee Williams,3.98,0822210894,9780822210894,eng,107,235224,2409,12/1/1952,Dramatists Play Service
 12222,A Streetcar Named Desire,Tennessee Williams/Arthur  Miller,3.98,0811216020,9780811216029,en-US,192,3458,337,9/17/2004,New Directions
-12224,Streetcar Suburbs: The Process of Growth in Boston  1870-1900,Sam Bass Warner, Jr./Sam B. Warner,3.58,0674842111,9780674842113,en-US,236,61,6,4/20/2004,Harvard University Press
+12224,Streetcar Suburbs: The Process of Growth in Boston  1870-1900,Sam Bass Warner Jr./Sam B. Warner,3.58,0674842111,9780674842113,en-US,236,61,6,4/20/2004,Harvard University Press
 12225,A Streetcar Named Desire (SparkNotes Literature Guide),SparkNotes,3.29,1586634496,9781586634490,eng,96,0,0,7/15/2002,SparkNotes
 12226,CliffNotes on Williams' Glass Menagerie & Streetcar Named Desire (Cliffs Notes),James Lamar Roberts/Tennessee Williams/CliffsNotes,3.70,0822005336,9780822005339,en-GB,88,10,0,1/5/1965,Cliffs Notes
 12230,Pygmalion,George Bernard Shaw/Dan H. Laurence/Nicholas Grene,3.90,0141439505,9780141439501,eng,122,2085,179,1/30/2003,Penguin Books
@@ -8978,7 +8978,7 @@ bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,rating
 34871,The Complete Clive Barker's The Great And Secret Show,Chris Ryall/Gabriel Rodríguez/Clive Barker,4.23,1600100295,9781600100291,eng,136,17422,67,11/8/2006,IDW Publishing
 34873,The Great And Secret Show (Book of the Art #1),Clive Barker,4.05,000617695X,9780006176954,eng,698,275,17,4/26/1990,Fontana Books
 34881,Star Bright (Star Power  #8),Catherine Hapka,3.67,068987670X,9780689876707,eng,160,3,0,4/26/2005,Aladdin Paperbacks
-34889,Brown's Star Atlas: Showing All The Bright Stars With Full Instructions How To Find And Use Them For Navigational Purposes And Department Of Trade Examinations.,Brown, Son & Ferguson,0.00,0851742718,9780851742717,eng,49,0,0,5/1/1977,Brown Son & Ferguson Ltd.
+34889,Brown's Star Atlas: Showing All The Bright Stars With Full Instructions How To Find And Use Them For Navigational Purposes And Department Of Trade Examinations.,Brown Son & Ferguson,0.00,0851742718,9780851742717,eng,49,0,0,5/1/1977,Brown Son & Ferguson Ltd.
 34892,Bright Star's Promise,Karen A. Bale,2.77,0821746219,9780821746219,eng,444,13,3,7/1/1994,Zebra
 34895,Dragon Quest VIII: Journey of the Cursed King Official Strategy Guide,Dan Birlew,4.14,0744005833,9780744005837,eng,240,35,0,11/8/2005,BradyGames
 34897,The Dragon Reborn (The Wheel of Time  #3),Robert Jordan,4.25,0765305119,9780765305114,eng,624,183950,2671,9/14/2002,Tor Books
@@ -9964,7 +9964,6 @@ bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,rating
 40139,Gone Bamboo,Anthony Bourdain,3.48,1841953679,9781841953670,eng,286,1066,74,5/1/2002,Canongate Books
 40143,The Family That Couldn't Sleep: A Medical Mystery,D.T. Max,3.91,081297252X,9780812972528,eng,299,237,48,9/11/2007,Random House Trade Paperbacks
 40145,Dear Genius: The Letters of Ursula Nordstrom,Ursula Nordstrom/Leonard S. Marcus/Maurice Sendak,4.40,0064462358,9780064462358,eng,406,533,112,3/31/2000,HarperCollins
-40146,"Dear Genius...": A Memoir of My Life with Truman Capote,Jack Dunphy,3.33,0070183171,9780070183179,eng,275,36,6,12/1/1987,McGraw-Hill Companies
 40152,Only Revolutions,Mark Z. Danielewski,3.21,0375421769,9780375421761,eng,360,4791,443,9/12/2006,Pantheon Books
 40153,The Whalestoe Letters,Mark Z. Danielewski,4.04,0375714413,9780375714412,eng,83,2112,96,10/10/2000,Pantheon
 40155,La Maison des feuilles,Mark Z. Danielewski/Christophe Claro,4.10,2207252000,9782207252000,fre,978,79,13,8/29/2002,Denoël
@@ -10867,7 +10866,6 @@ bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,rating
 44408,Becoming a Contagious Christian,Bill Hybels/Mark Mittelberg,3.92,0310210089,9780310210085,eng,224,1315,50,4/20/1996,Zondervan
 44433,Courageous Faith Through the Year,Bill Hybels/Keri Wyatt Kent,3.50,0830832947,9780830832941,eng,327,0,0,7/1/2004,IVP Books
 44436,Becoming a Contagious Christian Leader's Guide: Communicating Your Faith in a Style That Fits You,Mark Mittelberg/Lee Strobel,3.75,0310257867,9780310257868,eng,299,8,1,2/12/2007,Zondervan
-44439,"A" Is for Abductive : The Language of the Emerging Church,Leonard Sweet/Brian D. McLaren,3.14,0310243564,9780310243564,en-US,338,49,3,12/24/2002,Zondervan
 44442,The Church on the Other Side: Doing Ministry in the Postmodern Matrix,Brian D. McLaren,3.58,0310252199,9780310252191,eng,224,205,10,1/9/2003,Zondervan
 44446,Great Russian Short Stories,Paul Negri/Alexander Pushkin/Maxim Gorky/Aleksandr Ivanovich Kuprin/Leonid Andreyev/Nikolai Gogol/Ivan Turgenev/Fyodor Dostoyevsky/Leo Tolstoy/Nicholay Leskov/Vsevolod Garshin/Anton Chekhov/Theodor Sologub,4.02,048642992X,9780486429922,eng,208,162,20,7/29/2003,Dover Publications
 44450,The Portable Dorothy Parker,Dorothy Parker/Marion Meade/Seth,4.34,0143039539,9780143039532,eng,626,1447,199,3/28/2006,Penguin Books

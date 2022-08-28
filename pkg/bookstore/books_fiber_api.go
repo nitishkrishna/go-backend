@@ -4,17 +4,40 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/nitish-krishna/go-backend/pkg/book"
+	"github.com/nitish-krishna/go-backend/pkg/db"
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
 )
 
+const bookstoreEnvFilePath = ".env"
+
 type PostgresBookstore struct {
 	DB *gorm.DB
 }
 
+func InitializeBookstore() (*PostgresBookstore, error) {
+	dbConfig, err := db.ParsePostgresConfig(bookstoreEnvFilePath)
+	if err != nil {
+		return nil, fmt.Errorf("could not get db config: %w", err)
+	}
+
+	dbObj, err := db.NewPostgresConnection(dbConfig)
+	if err != nil {
+		return nil, fmt.Errorf("could not load the database: %w", err)
+	}
+
+	b := PostgresBookstore{DB: dbObj}
+	err = b.MigrateBooks()
+	if err != nil {
+		return nil, fmt.Errorf("could not migrate db: %w", err)
+	}
+
+	return &b, nil
+}
+
 func (b *PostgresBookstore) SetupRoutes(app *fiber.App) {
-	api := app.Group("/api")
+	api := app.Group("/bookstore")
 	api.Post("/books", b.CreateBook)
 	api.Delete("/books/:id", b.DeleteBook)
 	api.Get("/books/:id", b.GetBookByID)

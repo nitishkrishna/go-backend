@@ -2,25 +2,14 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-
 	"github.com/nitish-krishna/go-backend/pkg/bookstore"
-	"github.com/nitish-krishna/go-backend/pkg/db"
+	"github.com/nitish-krishna/go-backend/pkg/catalog"
 	"log"
 )
 
 const DatasetFile = "test.csv"
 
 func main() {
-
-	dbConfig, err := db.ParsePostgresConfig(".env")
-	if err != nil {
-		log.Fatal("could not get db config")
-	}
-
-	dbObj, err := db.NewPostgresConnection(dbConfig)
-	if err != nil {
-		log.Fatal("could not load the database")
-	}
 
 	/*
 		router := mux.NewRouter()
@@ -29,11 +18,18 @@ func main() {
 		_ = http.ListenAndServe(":4000", router)*/
 
 	app := fiber.New()
-	b := bookstore.PostgresBookstore{DB: dbObj}
-	err = b.MigrateBooks()
+
+	b, err := bookstore.InitializeBookstore()
 	if err != nil {
-		log.Fatal("could not migrate db")
+		log.Fatal(err.Error())
 	}
 	b.SetupRoutes(app)
+
+	c, err := catalog.InitializeCatalog()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	c.SetupRoutes(app)
+
 	_ = app.Listen(":4000")
 }
