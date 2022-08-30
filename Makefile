@@ -13,4 +13,10 @@ migrateup:
 migratedown:
 	migrate -path db/migration -database "postgresql://root:mypgpassword@localhost:5432/bookstore?sslmode=disable" -verbose down
 
-.PHONY: postgres createdb dropdb migrateup migratedown
+createdb-catalog:
+	docker exec -it postgres-bookstore createdb --username=root --owner=root catalog
+
+dropdb-catalog:
+	docker exec -it postgres-bookstore dropdb catalog
+
+.PHONY: postgres createdb dropdb migrateup migratedown createdb-catalog dropdb-catalog

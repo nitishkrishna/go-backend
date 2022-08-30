@@ -3,6 +3,7 @@ module github.com/nitish-krishna/go-backend
 go 1.17
 
 require (
+	github.com/gocarina/gocsv v0.0.0-20220823132111-71f3a5cb2654
 	github.com/gofiber/fiber/v2 v2.36.0
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0
