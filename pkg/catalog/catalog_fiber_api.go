@@ -35,6 +35,7 @@ func InitializeCatalog() (*BookCatalog, error) {
 
 	books := dataset.ReadFromCSV("./pkg/dataset/books.csv")
 	// Save all the records at once in the database
+	c.DB = c.DB.Session(&gorm.Session{CreateBatchSize: 1000})
 	err = c.BulkInsertBooks(books)
 	if err != nil {
 		return nil, fmt.Errorf("could not bulk insert into db: %w", err)
@@ -51,22 +52,22 @@ func (c *BookCatalog) SetupRoutes(app *fiber.App) {
 }
 
 func (c *BookCatalog) GetBookByID(context *fiber.Ctx) error {
-	id := context.Params("id")
-	if id == "" {
+	bookID := context.Params("id")
+	if bookID == "" {
 		context.Status(http.StatusInternalServerError).JSON(&fiber.Map{
-			"message": "id cannot be empty",
+			"message": "book id cannot be empty",
 		})
 		return nil
 	}
 
-	fmt.Println("the ID is", id)
+	fmt.Println("the Book ID is", bookID)
 
-	bookId, err := strconv.Atoi(id)
+	bookIdInt, err := strconv.Atoi(bookID)
 	if err != nil {
 		return err
 	}
 
-	bookModel, err := c.GetBookByIdOp(bookId)
+	bookModel, err := c.GetBookByIdOp(bookIdInt)
 	if err != nil {
 		jsonErr := context.Status(http.StatusBadRequest).JSON(
 			&fiber.Map{"message": "could not get the book"})

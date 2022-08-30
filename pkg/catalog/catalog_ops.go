@@ -14,6 +14,6 @@ func (c *BookCatalog) BulkInsertBooks(books *[]book.GoodreadsBook) error {
 
 func (c *BookCatalog) GetBookByIdOp(id int) (*book.GoodreadsBook, error) {
 	bookModels := &book.GoodreadsBook{}
-	err := c.DB.Take(bookModels, id).Error
+	err := c.DB.Where(&book.GoodreadsBook{BookId: id}).First(&bookModels).Error
 	return bookModels, err
 }
