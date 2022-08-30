@@ -4,8 +4,10 @@
 - [X] Book Gorm Postgres Migrate
 - [X] Fiber/Rest API Book Crud
 - [X] Test Gorm Postgres
-- [ ] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
+- [X] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
+- [ ] Catalog APIs + Pagination (display all in catalog)
 - [ ] ElasticSearch bookObj indexing
+- [ ] Catalog search by any field (author/partial title)
 - [ ] Inventory Management UI (Single bookObj)
 - [ ] Support multiple books
 - [ ] Library member table, CRUD and API
@@ -18,4 +20,9 @@
 
 ## Credits
 https://github.com/karanpratapsingh/tutorials/tree/master/go
+
+https://github.com/AkhilSharma90/go-postgres-gorm
+
 https://www.youtube.com/watch?v=bFYZrEuEDLE
+
+https://betterprogramming.pub/unit-testing-a-grom-application-with-a-real-db-server-81a1b95ad473
