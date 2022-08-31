@@ -19,10 +19,20 @@
 
 
 ## Credits
+
+### CRUD 
 https://github.com/karanpratapsingh/tutorials/tree/master/go
 
 https://github.com/AkhilSharma90/go-postgres-gorm
 
 https://www.youtube.com/watch?v=bFYZrEuEDLE
 
+### Testing
 https://betterprogramming.pub/unit-testing-a-grom-application-with-a-real-db-server-81a1b95ad473
+
+### Pagination
+https://medium.com/@michalkowal567/creating-reusable-pagination-in-golang-and-gorm-4b23e179a54b
+
+https://dev.to/rafaelgfirmino/pagination-using-gorm-scopes-3k5f
+
+https://jonnylangefeld.com/blog/how-to-write-a-go-api-pagination

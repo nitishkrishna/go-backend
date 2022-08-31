@@ -47,8 +47,7 @@ func InitializeCatalog() (*BookCatalog, error) {
 func (c *BookCatalog) SetupRoutes(app *fiber.App) {
 	api := app.Group("/catalog")
 	api.Get("/books/:id", c.GetBookByID)
-	// TODO: Use for pagination
-	// api.Get("/books", c.GetBooks)
+	api.Get("/books", c.GetBooks)
 }
 
 func (c *BookCatalog) GetBookByID(context *fiber.Ctx) error {
@@ -79,6 +78,49 @@ func (c *BookCatalog) GetBookByID(context *fiber.Ctx) error {
 	err = context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "book id fetched successfully",
 		"data":    bookModel,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *BookCatalog) GetBooks(context *fiber.Ctx) error {
+	page, _ := strconv.Atoi(context.Params("page"))
+	if page <= 0 {
+		page = 1
+	}
+	limit, _ := strconv.Atoi(context.Params("limit"))
+	if limit <= 0 || limit > 1000 {
+		limit = 10
+	}
+	sort := context.Params("sort")
+	var sortWithDirection string
+	if sort != "" {
+		direction := context.Params("sortDesc")
+		if direction != "" {
+			if direction == "true" {
+				sortWithDirection = sort + " desc"
+			} else if direction == "false" {
+				sortWithDirection = sort + " asc"
+			}
+		}
+	}
+
+	pagination := newPagination(limit, page, sortWithDirection)
+	paginatedResult, err := c.GetBooksOp(*pagination)
+
+	if err != nil {
+		jsonErr := context.Status(http.StatusBadRequest).JSON(
+			&fiber.Map{"message": "could not get the books"})
+		if jsonErr != nil {
+			return jsonErr
+		}
+		return err
+	}
+	context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "books fetched successfully",
+		"data":    paginatedResult.Rows,
 	})
 	if err != nil {
 		return err

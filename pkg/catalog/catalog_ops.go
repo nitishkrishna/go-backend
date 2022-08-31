@@ -17,3 +17,10 @@ func (c *BookCatalog) GetBookByIdOp(id int) (*book.GoodreadsBook, error) {
 	err := c.DB.Where(&book.GoodreadsBook{BookId: id}).First(&bookModels).Error
 	return bookModels, err
 }
+
+func (c *BookCatalog) GetBooksOp(pagination Pagination) (*Pagination, error) {
+	var books []*book.GoodreadsBook
+	err := c.DB.Scopes(paginate(books, pagination, c.DB)).Find(&books).Error
+	pagination.Rows = books
+	return &pagination, err
+}
