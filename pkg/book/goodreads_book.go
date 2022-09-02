@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type GoodreadsBook struct {
 	gorm.Model
 
-	BookId           int     `json:"bookID" csv:"bookID"`
+	Id               uint    `gorm:"primarykey" json:"book_id" csv:"book_id"`
 	Title            string  `json:"title" csv:"title"`
 	Authors          string  `json:"authors" csv:"authors"`
 	AverageRating    float32 `json:"average_rating" csv:"average_rating"`

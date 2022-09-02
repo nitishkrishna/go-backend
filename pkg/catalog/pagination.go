@@ -40,7 +40,7 @@ func (p *Pagination) GetPage() int {
 func (p *Pagination) GetSort() string {
 	if p.Sort == "" || strings.Contains(p.Sort, ";") || !(strings.Contains(p.Sort, "asc") || strings.Contains(p.Sort, "desc")) {
 		// Prevent SQL Injection
-		p.Sort = "id desc"
+		p.Sort = "id asc"
 	}
 	return p.Sort
 }

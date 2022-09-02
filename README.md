@@ -27,6 +27,9 @@ https://github.com/AkhilSharma90/go-postgres-gorm
 
 https://www.youtube.com/watch?v=bFYZrEuEDLE
 
+### Bulk Insertion
+https://betterprogramming.pub/how-to-bulk-create-and-update-the-right-way-in-golang-part-i-e15a8e5585d1
+
 ### Testing
 https://betterprogramming.pub/unit-testing-a-grom-application-with-a-real-db-server-81a1b95ad473
 

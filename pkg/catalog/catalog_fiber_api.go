@@ -33,13 +33,12 @@ func InitializeCatalog() (*BookCatalog, error) {
 		return nil, fmt.Errorf("could not migrate db: %w", err)
 	}
 
-	books := dataset.ReadFromCSV("./pkg/dataset/books.csv")
+	_ = dataset.ReadFromCSV("./pkg/dataset/books.csv")
 	// Save all the records at once in the database
-	c.DB = c.DB.Session(&gorm.Session{CreateBatchSize: 1000})
-	err = c.BulkInsertBooks(books)
+	/*err = c.BulkInsertBooks(books)
 	if err != nil {
 		return nil, fmt.Errorf("could not bulk insert into db: %w", err)
-	}
+	}*/
 
 	return &c, nil
 }
