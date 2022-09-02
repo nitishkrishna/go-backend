@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-const catalogEnvFilePath = ".catalogenv"
+const catalogEnvFilePath = ".env"
 
 type BookCatalog struct {
 	DB *gorm.DB
@@ -21,6 +21,8 @@ func InitializeCatalog() (*BookCatalog, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not get db config: %w", err)
 	}
+
+	dbConfig.DBName = "catalog"
 
 	dbObj, err := db.NewPostgresConnection(dbConfig)
 	if err != nil {

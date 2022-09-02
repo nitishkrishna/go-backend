@@ -29,7 +29,6 @@ func ParsePostgresConfig(envFilepath string) (*PostgresConfig, error) {
 		Password: os.Getenv("DB_PASS"),
 		User:     os.Getenv("DB_USER"),
 		SSLMode:  os.Getenv("DB_SSLMODE"),
-		DBName:   os.Getenv("DB_NAME"),
 	}, nil
 }
 
