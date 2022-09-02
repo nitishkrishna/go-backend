@@ -22,6 +22,8 @@ func InitializeBookstore() (*PostgresBookstore, error) {
 		return nil, fmt.Errorf("could not get db config: %w", err)
 	}
 
+	dbConfig.DBName = "bookstore"
+
 	dbObj, err := db.NewPostgresConnection(dbConfig)
 	if err != nil {
 		return nil, fmt.Errorf("could not load the database: %w", err)
