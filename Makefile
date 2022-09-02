@@ -19,4 +19,7 @@ createdb-catalog:
 dropdb-catalog:
 	docker exec -it postgres-bookstore dropdb catalog
 
-.PHONY: postgres createdb dropdb migrateup migratedown createdb-catalog dropdb-catalog
+build:
+	go build -mod=vendor -a -o app -ldflags "-X main.version=latest" cmd/main.go
+
+.PHONY: postgres createdb dropdb migrateup migratedown createdb-catalog dropdb-catalog build
