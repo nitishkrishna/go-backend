@@ -1,7 +1,6 @@
 package catalog
 
 import (
-	"fmt"
 	"github.com/nitish-krishna/go-backend/pkg/book"
 )
 
@@ -11,9 +10,7 @@ func (c *BookCatalog) MigrateBooks() error {
 }
 
 func (c *BookCatalog) BulkInsertBooks(books *[]book.GoodreadsBook) error {
-	// Ignore duplicates during bulk insert
-	fmt.Println("the number of books is", len(*books))
-	err := c.DB.CreateInBatches(*books, 1000).Error
+	err := c.DB.Create(books).Error
 	return err
 }
 
