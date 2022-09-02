@@ -5,7 +5,7 @@
 - [X] Fiber/Rest API Book Crud
 - [X] Test Gorm Postgres
 - [X] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
-- [ ] Catalog APIs + Pagination (display all in catalog)
+- [X] Catalog APIs + Pagination (display all in catalog)
 - [ ] ElasticSearch bookObj indexing
 - [ ] Catalog search by any field (author/partial title)
 - [ ] Inventory Management UI (Single bookObj)
