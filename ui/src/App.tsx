@@ -1,39 +1,68 @@
 
-import { Table } from '@mantine/core';
-import './App.css'
+import { Box, Table, Loader, Center } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import useSWR from "swr";
+import "./App.css";
 
-const elements = [
-  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-];
+export const ENDPOINT = "http://localhost:4000";
+
+const fetcher = (url: string) =>
+  fetch(`${ENDPOINT}/${url}`).then((r) => r.json());
+
+export interface TableGoodreadsBookProps {
+	data: {
+    book_id: number;
+    title: string;
+    authors: string;
+    average_rating: number;
+    isbn: string;
+    isbn13: string;
+    language_code: string;
+    num_pages: string;
+    ratings_count: number;
+    text_reviews_count: number;
+    publication_date: string;
+    publisher: string;
+	}[];
+}
+
+export function TableArea({ data }: TableGoodreadsBookProps) {
+
+	const rows = data.map(row => (
+		<tr key={row.book_id}>
+      <td>{row.title}</td>
+      <td>{row.authors}</td>
+      <td>{row.isbn}</td>
+      <td>{row.average_rating}</td>
+      <td>{row.num_pages}</td>
+		</tr>
+	));
+
+	return (
+		<Table horizontalSpacing="sm" verticalSpacing="sm">
+				<thead>
+					<tr>
+          <th>Title</th>
+          <th>Authors</th>
+          <th>ISBN</th>
+          <th>Average Rating</th>
+          <th>Number of Pages</th>
+					</tr>
+				</thead>
+        
+				<tbody>{rows}</tbody>
+		</Table>
+	);
+}
 
 
 function App() {
-  const rows = elements.map((element) => (
-    <tr key={element.name}>
-      <td>{element.position}</td>
-      <td>{element.name}</td>
-      <td>{element.symbol}</td>
-      <td>{element.mass}</td>
-    </tr>
-  ));
-
+  const { data } = useSWR<TableGoodreadsBookProps>("catalog/books", fetcher);
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Element position</th>
-          <th>Element name</th>
-          <th>Symbol</th>
-          <th>Atomic mass</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
-  );
+    <Box>
+      {data ? <TableArea data={data.data} /> : <Loader />}
+    </Box>
+  )
 }
 
-export default App
+export default App;
