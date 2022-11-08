@@ -20,6 +20,9 @@
 
 ## Credits
 
+### Migration
+https://github.com/golang-migrate/migrate
+
 ### CRUD 
 https://github.com/karanpratapsingh/tutorials/tree/master/go
 

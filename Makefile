@@ -22,4 +22,11 @@ dropdb-catalog:
 build:
 	go build -mod=vendor -a -o app -ldflags "-X main.version=latest" cmd/main.go
 
-.PHONY: postgres createdb dropdb migrateup migratedown createdb-catalog dropdb-catalog build
+run-backend:
+	go run cmd/main.go
+
+run-ui:
+	cd ui && yarn && yarn dev
+
+
+.PHONY: postgres createdb dropdb migrateup migratedown createdb-catalog dropdb-catalog build run-backend run-ui
