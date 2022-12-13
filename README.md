@@ -20,6 +20,9 @@
 
 ## Credits
 
+### Migration
+https://github.com/golang-migrate/migrate
+
 ### CRUD 
 https://github.com/karanpratapsingh/tutorials/tree/master/go
 
@@ -39,3 +42,9 @@ https://medium.com/@michalkowal567/creating-reusable-pagination-in-golang-and-go
 https://dev.to/rafaelgfirmino/pagination-using-gorm-scopes-3k5f
 
 https://jonnylangefeld.com/blog/how-to-write-a-go-api-pagination
+
+### UI
+
+https://www.youtube.com/watch?v=QevhhM_QfbM
+
+https://github.com/U-C-S/Fitness-Centre-WebApp/blob/7fe6dd0e806b6c4a51f440a6566c44bce6d8bae6/client/pages/admin/view/trainers.tsx#L19
