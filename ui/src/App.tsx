@@ -1,7 +1,9 @@
 
-import { Box, Table, Loader, Center } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import useSWR from "swr";
+// import { Box, Table, Loader, Center } from '@mantine/core';
+// import { useForm } from '@mantine/form';
+// import useSWR from "swr";
+import { useState } from 'react';
+import Pagination from './components/Pagination';
 import "./App.css";
 
 export const ENDPOINT = "http://localhost:4000";
@@ -56,13 +58,32 @@ export function TableArea({ data }: TableGoodreadsBookProps) {
 }
 
 
-function App() {
-  const { data } = useSWR<TableGoodreadsBookProps>("catalog/books", fetcher);
+// function App() {
+//   const { data } = useSWR<TableGoodreadsBookProps>("catalog/books", fetcher);
+//   return (
+//     <Box>
+//       {data ? <TableArea data={data.data} /> : <Loader />}
+//     </Box>
+//   )
+// }
+// export default App;
+
+
+export default function App() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const lastPage = 20;
+
   return (
-    <Box>
-      {data ? <TableArea data={data.data} /> : <Loader />}
-    </Box>
-  )
+    <div className="container">
+      <h1>Catalog of Books</h1>
+      <Pagination
+        currentPage={currentPage}
+        lastPage={lastPage}
+        maxLength={7}
+        setCurrentPage={setCurrentPage}
+      />
+    </div>
+  );
 }
 
-export default App;
+
