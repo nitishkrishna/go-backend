@@ -6,6 +6,7 @@
 - [X] Test Gorm Postgres
 - [X] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
 - [X] Catalog APIs + Pagination (display all in catalog)
+- [X] UI Pagination - All books displayed
 - [ ] ElasticSearch bookObj indexing
 - [ ] Catalog search by any field (author/partial title)
 - [ ] Inventory Management UI (Single bookObj)
@@ -48,3 +49,7 @@ https://jonnylangefeld.com/blog/how-to-write-a-go-api-pagination
 https://www.youtube.com/watch?v=QevhhM_QfbM
 
 https://github.com/U-C-S/Fitness-Centre-WebApp/blob/7fe6dd0e806b6c4a51f440a6566c44bce6d8bae6/client/pages/admin/view/trainers.tsx#L19
+
+#### Pagination in UI
+
+https://dominicarrojado.com/posts/how-to-create-your-own-pagination-in-react-and-typescript-with-tests-part-1/
