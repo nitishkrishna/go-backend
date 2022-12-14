@@ -6,6 +6,7 @@
 - [X] Test Gorm Postgres
 - [X] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
 - [X] Catalog APIs + Pagination (display all in catalog)
+- [X] UI Pagination - All books displayed
 - [ ] ElasticSearch bookObj indexing
 - [ ] Catalog search by any field (author/partial title)
 - [ ] Inventory Management UI (Single bookObj)
