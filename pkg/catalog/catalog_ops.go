@@ -26,3 +26,10 @@ func (c *BookCatalog) GetBooksOp(pagination Pagination) (*Pagination, error) {
 	pagination.Rows = books
 	return &pagination, err
 }
+
+func (c *BookCatalog) GetBooksTotalOp() int64 {
+	var books []*book.GoodreadsBook
+	var count int64
+	c.DB.Model(&books).Count(&count)
+	return count
+}

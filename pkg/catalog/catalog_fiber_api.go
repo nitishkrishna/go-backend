@@ -2,13 +2,15 @@ package catalog
 
 import (
 	"fmt"
+	"net/http"
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+
 	"github.com/nitish-krishna/go-backend/pkg/book"
 	"github.com/nitish-krishna/go-backend/pkg/dataset"
 	"github.com/nitish-krishna/go-backend/pkg/db"
-	"gorm.io/gorm"
-	"net/http"
-	"strconv"
 )
 
 const catalogEnvFilePath = ".env"
@@ -56,6 +58,7 @@ func (c *BookCatalog) SetupRoutes(app *fiber.App) {
 	api := app.Group("/catalog")
 	api.Get("/books/:id", c.GetBookByID)
 	api.Get("/books", c.GetBooks)
+	api.Get("/total", c.GetBookTotal)
 }
 
 func (c *BookCatalog) GetBookByID(context *fiber.Ctx) error {
@@ -132,6 +135,22 @@ func (c *BookCatalog) GetBooks(context *fiber.Ctx) error {
 	context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "books fetched successfully",
 		"data":    paginatedResult.Rows,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *BookCatalog) GetBookTotal(context *fiber.Ctx) error {
+
+	count := c.GetBooksTotalOp()
+
+	fmt.Println("the Book count total is: ", count)
+
+	err := context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "book count fetched successfully",
+		"data":    count,
 	})
 	if err != nil {
 		return err

@@ -1,9 +1,10 @@
 package catalog
 
 import (
-	"gorm.io/gorm"
 	"math"
 	"strings"
+
+	"gorm.io/gorm"
 )
 
 type Pagination struct {

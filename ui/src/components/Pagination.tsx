@@ -1,6 +1,10 @@
 import PageLink from './PageLink';
 import './Pagination.css';
 import { getPaginationItems } from '../lib/pagination';
+import {TableArea, TableGoodreadsBookProps} from './BookTable';
+import { Box, Table, Loader, Center } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import useSWR from "swr";
 
 export type Props = {
   currentPage: number;
@@ -16,13 +20,18 @@ export default function Pagination({
   setCurrentPage,
 }: Props) {
 
-  const baseUrl = 'http://127.0.0.1:4000/catalog/books?';
+  const ENDPOINT = "http://localhost:4000";
   const limit = 20;
   const pageNums = getPaginationItems(currentPage, lastPage, maxLength);
-  // http://127.0.0.1:4000/catalog/books?page=4&limit=100
+  const fetcher = (url: string) =>
+  fetch(`${ENDPOINT}/${url}`).then((r) => r.json());
+  const { data } = useSWR<TableGoodreadsBookProps>(`catalog/books?page=${currentPage}&limit=${limit}`, fetcher);
 
   return (
     <nav className="pagination" aria-label="Pagination">
+      <Box>
+       {data ? <TableArea data={data.data} /> : <Loader />}
+      </Box>
       <PageLink
         disabled={currentPage === 1}
         onClick={() => setCurrentPage(currentPage - 1)}
