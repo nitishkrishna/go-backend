@@ -15,7 +15,7 @@ export default function App() {
     }
     fetchData();
   }, []);
-  const lastPage = Math.floor( totalBooks/limit );;
+  const lastPage = Math.ceil( totalBooks/limit );;
   
   return (
     <div className="container">

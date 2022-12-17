@@ -38,5 +38,16 @@ func main() {
 	}
 	c.SetupRoutes(app)
 
+	var indexingErr error
+	indexingFunc := func() error {
+		indexingErr = c.IndexFullCatalog()
+		return indexingErr
+	}
+	go indexingFunc()
+
+	if indexingErr != nil {
+		log.Fatal(err.Error())
+	}
+
 	_ = app.Listen(":4000")
 }
