@@ -15,6 +15,7 @@ import (
 )
 
 const catalogEnvFilePath = ".env"
+const TSVIndexQuery = `CREATE INDEX IF NOT EXISTS tsv_title_idx ON catalog USING GIN (titletsv)`
 
 type BookCatalog struct {
 	DB *gorm.DB
@@ -67,6 +68,7 @@ func (c *BookCatalog) IndexFullCatalog() error {
 	if count != indexedCount {
 		c.DB.Migrator().DropTable(&book.IndexedGoodreadsBook{})
 		err := c.MigrateIndexedBooks()
+		c.DB.Exec(TSVIndexQuery)
 		if err != nil {
 			return errors.Wrapf(err, "could not migrate db for indexed books")
 		}
