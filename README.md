@@ -21,6 +21,9 @@
 
 ## Credits
 
+### Graceful Shutdown
+https://github.com/gofiber/fiber/issues/899#issuecomment-705780521
+
 ### Migration
 https://github.com/golang-migrate/migrate
 

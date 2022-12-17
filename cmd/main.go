@@ -1,10 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
+	"os/signal"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+
 	"github.com/nitish-krishna/go-backend/pkg/bookstore"
 	"github.com/nitish-krishna/go-backend/pkg/catalog"
 )
@@ -13,34 +17,40 @@ const DatasetFile = "test.csv"
 
 func main() {
 
-	/*
-		router := mux.NewRouter()
-		book.SetupHandlers(router)
-		log.Println("API is running now!")
-		_ = http.ListenAndServe(":4000", router)*/
-
 	app := fiber.New()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	serverShutdown := make(chan struct{})
+
+	go func() {
+		<-c
+		fmt.Println("Gracefully shutting down...")
+		_ = app.Shutdown()
+		serverShutdown <- struct{}{}
+	}()
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:5173",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
 
-	b, err := bookstore.InitializeBookstore()
+	bookstore, err := bookstore.InitializeBookstore()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	b.SetupRoutes(app)
+	bookstore.SetupRoutes(app)
 
-	c, err := catalog.InitializeCatalog()
+	catalog, err := catalog.InitializeCatalog()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	c.SetupRoutes(app)
+	catalog.SetupRoutes(app)
 
 	var indexingErr error
 	indexingFunc := func() error {
-		indexingErr = c.IndexFullCatalog()
+		indexingErr = catalog.IndexFullCatalog()
 		return indexingErr
 	}
 	go indexingFunc()
@@ -49,5 +59,9 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	_ = app.Listen(":4000")
+	if err := app.Listen(":4000"); err != nil {
+		log.Panic(err)
+	}
+
+	<-serverShutdown
 }
