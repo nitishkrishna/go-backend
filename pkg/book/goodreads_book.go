@@ -19,10 +19,6 @@ type GoodreadsBook struct {
 	TextReviewsCount uint    `json:"text_reviews_count" csv:"text_reviews_count"`
 	PublicationDate  string  `json:"publication_date" csv:"publication_date"`
 	Publisher        string  `json:"publisher" csv:"publisher"`
-}
-
-type IndexedGoodreadsBook struct {
-	GoodreadsBook
-	TitleTSV  string `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', title)) STORED;default:(-)"`
-	AuthorTSV string `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', authors)) STORED;default:(-)"`
+	TitleTSV         string  `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', title)) STORED;default:(-)"`
+	AuthorTSV        string  `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', authors)) STORED;default:(-)"`
 }

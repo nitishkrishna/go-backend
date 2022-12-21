@@ -48,17 +48,6 @@ func main() {
 	}
 	catalog.SetupRoutes(app)
 
-	var indexingErr error
-	indexingFunc := func() error {
-		indexingErr = catalog.IndexFullCatalog()
-		return indexingErr
-	}
-	go indexingFunc()
-
-	if indexingErr != nil {
-		log.Fatal(err.Error())
-	}
-
 	if err := app.Listen(":4000"); err != nil {
 		log.Panic(err)
 	}

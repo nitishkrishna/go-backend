@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/pkg/errors"
 	"gorm.io/gorm"
 
 	"github.com/nitish-krishna/go-backend/pkg/book"
@@ -15,7 +14,7 @@ import (
 )
 
 const catalogEnvFilePath = ".env"
-const TSVIndexQuery = `CREATE INDEX IF NOT EXISTS tsv_title_idx ON catalog USING GIN (title_tsv)`
+const TSVIndexQuery = `CREATE INDEX IF NOT EXISTS tsv_title_idx ON goodreads_books USING GIN (title_tsv)`
 
 type BookCatalog struct {
 	DB *gorm.DB
@@ -54,53 +53,6 @@ func InitializeCatalog() (*BookCatalog, error) {
 	}
 
 	return &c, nil
-}
-
-func (c *BookCatalog) IndexFullCatalog() error {
-	err := c.MigrateIndexedBooks()
-	if err != nil {
-		return errors.Wrapf(err, "could not migrate db for indexed books")
-	}
-
-	var count, indexedCount int64
-	c.DB.Model(&book.GoodreadsBook{}).Count(&count)
-	c.DB.Model(&book.IndexedGoodreadsBook{}).Count(&indexedCount)
-	if count != indexedCount {
-		c.DB.Migrator().DropTable(&book.IndexedGoodreadsBook{})
-		err := c.MigrateIndexedBooks()
-		c.DB.Exec(TSVIndexQuery)
-		if err != nil {
-			return errors.Wrapf(err, "could not migrate db for indexed books")
-		}
-		var bookRecords []*book.GoodreadsBook
-		err = c.DB.Find(&bookRecords).Error
-		if err != nil {
-			return errors.Wrapf(err, "could not read all books from DB")
-		}
-
-		for _, bookRecord := range bookRecords {
-			indexedBookRecord := book.IndexedGoodreadsBook{
-				GoodreadsBook: *bookRecord,
-			}
-			res := c.DB.Create(&indexedBookRecord)
-			if res.Error != nil {
-				return errors.Wrapf(res.Error, "could not index record for book: %v", bookRecord.Title)
-			}
-			fmt.Println("Still indexing...")
-		}
-	}
-
-	fmt.Println("Finished indexing books")
-	testIndexedBook := &book.IndexedGoodreadsBook{}
-	err = c.DB.Last(&testIndexedBook).Error
-	if err != nil {
-		return errors.Wrapf(err, "could not find last indexed book")
-	}
-
-	lexemes := testIndexedBook.TitleTSV
-	fmt.Printf("lexemes of last book: %s", lexemes)
-
-	return nil
 }
 
 func (c *BookCatalog) SetupRoutes(app *fiber.App) {

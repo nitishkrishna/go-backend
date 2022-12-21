@@ -8,7 +8,11 @@ import (
 
 func (c *BookCatalog) MigrateBooks() error {
 	err := c.DB.AutoMigrate(&book.GoodreadsBook{})
-	return err
+	if err != nil {
+		return err
+	}
+	c.DB.Exec(TSVIndexQuery)
+	return nil
 }
 
 func (c *BookCatalog) BulkInsertBooks(books *[]book.GoodreadsBook) error {
@@ -24,9 +28,8 @@ func (c *BookCatalog) GetBookByIdOp(id int) (*book.GoodreadsBook, error) {
 
 func (c *BookCatalog) SearchBookByNameOp(query string, pagination Pagination) (*Pagination, error) {
 	nlQuery := strings.Join(strings.Split(query, " "), "|")
-	var books []*book.IndexedGoodreadsBook
-	err := c.DB.Scopes(paginate(books, pagination, c.DB)).Where("title_tsv @@ to_tsquery(?)", nlQuery).Find(&books).Error
-	// Need to bulk translate these to fetch from GoodreadsBook table instead of indexed table
+	var books []*book.GoodreadsBook
+	err := c.DB.Scopes(paginate(books, pagination, c.DB)).Where("title_tsv @@ to_tsquery(?)", nlQuery).Select("Title", "Authors", "AverageRating", "NumPages").Find(&books).Error
 	pagination.Rows = books
 	return &pagination, err
 }
