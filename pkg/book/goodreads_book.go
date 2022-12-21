@@ -23,6 +23,6 @@ type GoodreadsBook struct {
 
 type IndexedGoodreadsBook struct {
 	GoodreadsBook
-	TitleTSV  string `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector(title)) STORED;default:(-)"`
-	AuthorTSV string `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector(authors)) STORED;default:(-)"`
+	TitleTSV  string `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', title)) STORED;default:(-)"`
+	AuthorTSV string `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', authors)) STORED;default:(-)"`
 }

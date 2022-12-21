@@ -15,7 +15,7 @@ import (
 )
 
 const catalogEnvFilePath = ".env"
-const TSVIndexQuery = `CREATE INDEX IF NOT EXISTS tsv_title_idx ON catalog USING GIN (titletsv)`
+const TSVIndexQuery = `CREATE INDEX IF NOT EXISTS tsv_title_idx ON catalog USING GIN (title_tsv)`
 
 type BookCatalog struct {
 	DB *gorm.DB
@@ -108,6 +108,7 @@ func (c *BookCatalog) SetupRoutes(app *fiber.App) {
 	api.Get("/books/:id", c.GetBookByID)
 	api.Get("/books", c.GetBooks)
 	api.Get("/total", c.GetBookTotal)
+	api.Get("/search/:title", c.SearchBooks)
 }
 
 func (c *BookCatalog) GetBookByID(context *fiber.Ctx) error {
@@ -172,6 +173,60 @@ func (c *BookCatalog) GetBooks(context *fiber.Ctx) error {
 	fmt.Printf("Getting books, limit %d, page %d, sort %s\n", limit, page, sortWithDirection)
 
 	paginatedResult, err := c.GetBooksOp(*pagination)
+
+	if err != nil {
+		jsonErr := context.Status(http.StatusBadRequest).JSON(
+			&fiber.Map{"message": "could not get the books"})
+		if jsonErr != nil {
+			return jsonErr
+		}
+		return err
+	}
+	context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "books fetched successfully",
+		"data":    paginatedResult.Rows,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *BookCatalog) SearchBooks(context *fiber.Ctx) error {
+	searchTerm := context.Params("title")
+	if searchTerm == "" {
+		context.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "search term cannot be empty",
+		})
+		return nil
+	}
+
+	page, _ := strconv.Atoi(context.Query("page"))
+	if page <= 0 {
+		page = 1
+	}
+	limit, _ := strconv.Atoi(context.Query("limit"))
+	if limit <= 0 || limit > 1000 {
+		limit = 10
+	}
+	sort := context.Query("sort")
+	var sortWithDirection string
+	if sort != "" {
+		direction := context.Query("sortDesc")
+		if direction != "" {
+			if direction == "true" {
+				sortWithDirection = sort + " desc"
+			} else if direction == "false" {
+				sortWithDirection = sort + " asc"
+			}
+		}
+	}
+
+	pagination := newPagination(limit, page, sortWithDirection)
+
+	fmt.Printf("Searching books, limit %d, page %d, sort %s\n", limit, page, sortWithDirection)
+
+	paginatedResult, err := c.SearchBookByNameOp(searchTerm, *pagination)
 
 	if err != nil {
 		jsonErr := context.Status(http.StatusBadRequest).JSON(

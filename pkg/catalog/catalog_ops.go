@@ -1,6 +1,8 @@
 package catalog
 
 import (
+	"strings"
+
 	"github.com/nitish-krishna/go-backend/pkg/book"
 )
 
@@ -18,6 +20,15 @@ func (c *BookCatalog) GetBookByIdOp(id int) (*book.GoodreadsBook, error) {
 	bookModels := &book.GoodreadsBook{}
 	err := c.DB.Where(&book.GoodreadsBook{Id: uint(id)}).First(&bookModels).Error
 	return bookModels, err
+}
+
+func (c *BookCatalog) SearchBookByNameOp(query string, pagination Pagination) (*Pagination, error) {
+	nlQuery := strings.Join(strings.Split(query, " "), "|")
+	var books []*book.IndexedGoodreadsBook
+	err := c.DB.Scopes(paginate(books, pagination, c.DB)).Where("title_tsv @@ to_tsquery(?)", nlQuery).Find(&books).Error
+	// Need to bulk translate these to fetch from GoodreadsBook table instead of indexed table
+	pagination.Rows = books
+	return &pagination, err
 }
 
 func (c *BookCatalog) GetBooksOp(pagination Pagination) (*Pagination, error) {
