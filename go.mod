@@ -3,6 +3,7 @@ module github.com/nitish-krishna/go-backend
 go 1.17
 
 require (
+	github.com/aymericbeaumet/go-tsvector v0.0.0-20210303220322-b3114343d43a
 	github.com/gocarina/gocsv v0.0.0-20220823132111-71f3a5cb2654
 	github.com/gofiber/fiber/v2 v2.37.1
 	github.com/gorilla/mux v1.8.0
@@ -11,7 +12,7 @@ require (
 	github.com/onsi/gomega v1.20.0
 	github.com/ory/dockertest/v3 v3.9.1
 	gorm.io/driver/postgres v1.3.9
-	gorm.io/gorm v1.23.8
+	gorm.io/gorm v1.24.2
 )
 
 require (
