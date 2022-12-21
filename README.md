@@ -7,8 +7,8 @@
 - [X] Bulk Insert Postgres [dataset link](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks)
 - [X] Catalog APIs + Pagination (display all in catalog)
 - [X] UI Pagination - All books displayed
-- [ ] ElasticSearch bookObj indexing
-- [ ] Catalog search by any field (author/partial title)
+- [X] Indexing all catalog entries (TSV)
+- [ ] Live Catalog search by partial title
 - [ ] Inventory Management UI (Single bookObj)
 - [ ] Support multiple books
 - [ ] Library member table, CRUD and API
