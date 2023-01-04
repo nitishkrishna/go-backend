@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pagination from './components/Pagination';
+import SearchBar from './components/Search';
 import "./App.css";
 
 export default function App() {
@@ -15,7 +16,7 @@ export default function App() {
     }
     fetchData();
   }, []);
-  const lastPage = Math.ceil( totalBooks/limit );;
+  const lastPage = Math.ceil( totalBooks/limit );
   
   return (
     <div className="container">

@@ -22,3 +22,10 @@ type GoodreadsBook struct {
 	TitleTSV         string  `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', title)) STORED;default:(-)"`
 	AuthorTSV        string  `gorm:"->;type:tsvector GENERATED ALWAYS AS (to_tsvector('english', authors)) STORED;default:(-)"`
 }
+
+type GoodreadsBookSearchResult struct {
+	Title         string  `json:"title" csv:"title"`
+	Authors       string  `json:"authors" csv:"authors"`
+	AverageRating float32 `json:"average_rating" csv:"average_rating"`
+	NumPages      string  `json:"num_pages" csv:"num_pages"`
+}

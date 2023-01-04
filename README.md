@@ -56,3 +56,7 @@ https://github.com/U-C-S/Fitness-Centre-WebApp/blob/7fe6dd0e806b6c4a51f440a6566c
 #### Pagination in UI
 
 https://dominicarrojado.com/posts/how-to-create-your-own-pagination-in-react-and-typescript-with-tests-part-1/
+
+#### Live Search
+
+https://www.digitalocean.com/community/tutorials/react-live-search-with-axios

@@ -28,8 +28,10 @@ func (c *BookCatalog) GetBookByIdOp(id int) (*book.GoodreadsBook, error) {
 
 func (c *BookCatalog) SearchBookByNameOp(query string, pagination Pagination) (*Pagination, error) {
 	nlQuery := strings.Join(strings.Split(query, " "), "|")
-	var books []*book.GoodreadsBook
-	err := c.DB.Scopes(paginate(books, pagination, c.DB)).Where("title_tsv @@ to_tsquery(?)", nlQuery).Select("Title", "Authors", "AverageRating", "NumPages").Find(&books).Error
+	var books []*book.GoodreadsBookSearchResult
+	// Gorm allows you to query only for the fields you need
+	// https://gorm.io/docs/advanced_query.html
+	err := c.DB.Model(&book.GoodreadsBook{}).Scopes(paginate(book.GoodreadsBook{}, pagination, c.DB)).Where("title_tsv @@ to_tsquery(?)", nlQuery).Select("Title", "Authors", "AverageRating", "NumPages").Find(&books).Error
 	pagination.Rows = books
 	return &pagination, err
 }
